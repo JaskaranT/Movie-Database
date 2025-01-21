@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <title>Delete Movie</title>
+</head>
+<body>
+    <div class="container">
+        <h1>TCSS460: CRUD Operations Interface</h1>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="create.html">Create</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="read.html">Read</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="update.html">Update</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="delete.html">Delete</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="search.html">Search</a>
+            </li>
+        </ul>
+        <h2>Delete Movie</h2>
+        <form id="deleteMovieForm">
+            <div class="form-group">
+                <label for="movieId">Select Movie to Delete</label>
+                <select class="form-control" id="movieId" name="movieId">
+                    <!-- Options will be dynamically inserted here -->
+                </select>
+            </div>
+            <button type="submit" class="btn btn-danger">Delete Movie</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            function fetchMovies() {
+                $.ajax({
+                    url: 'http://localhost:3000/movies',
+                    type: 'GET',
+                    success: function(movies) {
+                        $('#movieId').empty();
+                        movies.forEach(movie => {
+                            $('#movieId').append(`
+                                <option value="${movie.id}">${movie.title}</option>
+                            `);
+                        });
+                    },
+                    error: function(err) {
+                        console.error('Error fetching movies: ', err);
+                        alert('Error fetching movies. Please try again.');
+                    }
+                });
+            }
+
+            $('#deleteMovieForm').submit(function(event) {
+                event.preventDefault();
+                const movieId = $('#movieId').val();
+                if (confirm('Are you sure you want to delete this movie?')) {
+                    $.ajax({
+                        url: `http://localhost:3000/movies/${movieId}`,
+                        type: 'DELETE',
+                        success: function() {
+                            alert('Movie deleted successfully!');
+                            fetchMovies(); // Refresh the movie list
+                        },
+                        error: function(err) {
+                            console.error('Error deleting movie: ', err);
+                            alert('Error deleting movie. Please try again.');
+                        }
+                    });
+                }
+            });
+
+            fetchMovies();
+        });
+    </script>
+</body>
+</html>

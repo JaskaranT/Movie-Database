@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Database API Documentation</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+   
+</head>
+<body>
+    <div class="container">
+        <h1>Movie Database API Documentation</h1>
+        <h2>Base URL</h2>
+        <p><code>http://localhost:3000</code></p>
+
+        <h2>Endpoints</h2>
+        <h3>GET /movies</h3>
+        <p>Retrieve all movies.</p>
+        <pre><code>
+GET /movies
+Response:
+[
+    {
+        "id": 1,
+        "title": "The Godfather",
+        "director": "Francis Ford Coppola",
+        "release_year": 1972,
+        "genre": "Crime",
+        "rating": 9.2
+    },
+    ...
+]
+        </code></pre>
+
+        <h3>GET /movies/:id</h3>
+        <p>Retrieve a movie by its ID.</p>
+        <pre><code>
+GET /movies/1
+Response:
+{
+    "id": 1,
+    "title": "The Godfather",
+    "director": "Francis Ford Coppola",
+    "release_year": 1972,
+    "genre": "Crime",
+    "rating": 9.2
+}
+        </code></pre>
+
+        <h3>GET /movies/title/:title</h3>
+        <p>Retrieve movies by title.</p>
+        <pre><code>
+GET /movies/title/godfather
+Response:
+[
+    {
+        "id": 1,
+        "title": "The Godfather",
+        "director": "Francis Ford Coppola",
+        "release_year": 1972,
+        "genre": "Crime",
+        "rating": 9.2
+    },
+    ...
+]
+        </code></pre>
+
+        <h3>GET /movies/rating/:rating</h3>
+        <p>Retrieve movies by rating.</p>
+        <pre><code>
+GET /movies/rating/9.2
+Response:
+[
+    {
+        "id": 1,
+        "title": "The Godfather",
+        "director": "Francis Ford Coppola",
+        "release_year": 1972,
+        "genre": "Crime",
+        "rating": 9.2
+    },
+    ...
+]
+        </code></pre>
+
+        <h3>GET /movies/year/:year</h3>
+        <p>Retrieve movies by release year.</p>
+        <pre><code>
+GET /movies/year/1972
+Response:
+[
+    {
+        "id": 1,
+        "title": "The Godfather",
+        "director": "Francis Ford Coppola",
+        "release_year": 1972,
+        "genre": "Crime",
+        "rating": 9.2
+    },
+    ...
+]
+        </code></pre>
+
+        <h3>GET /movies/director/:director</h3>
+        <p>Retrieve movies by director.</p>
+        <pre><code>
+GET /movies/director/Francis%20Ford%20Coppola
+Response:
+[
+    {
+        "id": 1,
+        "title": "The Godfather",
+        "director": "Francis Ford Coppola",
+        "release_year": 1972,
+        "genre": "Crime",
+        "rating": 9.2
+    },
+    ...
+]
+        </code></pre>
+
+        <h3>GET /movies/genre/:genre</h3>
+        <p>Retrieve movies by genre.</p>
+        <pre><code>
+GET /movies/genre/Crime
+Response:
+[
+    {
+        "id": 1,
+        "title": "The Godfather",
+        "director": "Francis Ford Coppola",
+        "release_year": 1972,
+        "genre": "Crime",
+        "rating": 9.2
+    },
+    ...
+]
+        </code></pre>
+
+        <h3>POST /movies</h3>
+        <p>Create a new movie.</p>
+        <pre><code>
+POST /movies
+Request Body:
+{
+    "title": "The Godfather",
+    "director": "Francis Ford Coppola",
+    "release_year": 1972,
+    "genre": "Crime",
+    "rating": 9.2
+}
+Response:
+Movie added with ID: 1
+        </code></pre>
+
+        <h3>PUT /movies/:id</h3>
+        <p>Update a movie by its ID.</p>
+        <pre><code>
+PUT /movies/1
+Request Body:
+{
+    "title": "The Godfather",
+    "director": "Francis Ford Coppola",
+    "release_year": 1972,
+    "genre": "Crime",
+    "rating": 9.2
+}
+Response:
+Movie updated with ID: 1
+        </code></pre>
+
+        <h3>PUT /movies/title/:title</h3>
+        <p>Update a movie rating by its title.</p>
+        <pre><code>
+PUT /movies/title/The%20Godfather
+Request Body:
+{
+    "rating": 9.5
+}
+Response:
+Rating updated successfully for movie: The Godfather
+        </code></pre>
+
+        <h3>DELETE /movies/:id</h3>
+        <p>Delete a movie by its ID.</p>
+        <pre><code>
+DELETE /movies/1
+Response:
+Movie deleted with ID: 1
+        </code></pre>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Search Movies</title>
+    <style>
+        body {
+            background-image: url('moviedb.jpg');
+            background-size: cover;
+            padding-top: 20px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Search Movies</h1>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="create.html">Create</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="read.html">Read</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="update.html">Update</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="delete.html">Delete</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="search.html">Search</a>
+            </li>
+        </ul>
+        <form id="searchForm">
+            <div class="form-group">
+                <label for="searchType">Search By:</label>
+                <select class="form-control" id="searchType">
+                    <option value="director">Director</option>
+                    <option value="year">Release Year</option>
+                    <option value="genre">Genre</option>
+                    <option value="rating">Rating</option>
+                    <option value="title">Title</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="searchQuery">Search:</label>
+                <input type="text" class="form-control" id="searchQuery" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        <div id="results" class="mt-4"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#searchForm').submit(function(event) {
+                event.preventDefault();
+                const searchType = $('#searchType').val();
+                const searchQuery = $('#searchQuery').val();
+                let url = `http://localhost:3000/movies/${searchType}/${searchQuery}`;
+
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function(data) {
+                        $('#results').empty();
+                        if (data.length > 0) {
+                            let table = `<table class="table table-bordered"><thead><tr><th>Title</th><th>Director</th><th>Release Year</th><th>Genre</th><th>Rating</th></tr></thead><tbody>`;
+                            data.forEach(movie => {
+                                table += `<tr>
+                                    <td>${movie.title}</td>
+                                    <td>${movie.director}</td>
+                                    <td>${movie.release_year}</td>
+                                    <td>${movie.genre}</td>
+                                    <td>${movie.rating}</td>
+                                </tr>`;
+                            });
+                            table += `</tbody></table>`;
+                            $('#results').html(table);
+                        } else {
+                            $('#results').html('<p>No movies found.</p>');
+                        }
+                    },
+                    error: function(err) {
+                        console.error('Error fetching movies: ', err);
+                        $('#results').html('<p>Error fetching movies. Please try again.</p>');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
